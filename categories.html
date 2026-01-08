@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأصناف - دكان الحرمين</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --accent-glow: rgba(140, 180, 255, 0.3);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --bg-deep: #020617;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Abstract Fluid Background */
+        .fluid-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, #1e1b4b 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #1e293b 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: move 25s infinite alternate ease-in-out;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%) rotate(0deg); }
+            to { transform: translate(20%, 30%) rotate(360deg); }
+        }
+
+        /* Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 4rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            padding: 0 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        .category-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-desc {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: revealAnim 1s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes revealAnim {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-sub);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fluid-canvas">
+        <div class="blob"></div>
+    </div>
+
+    <nav class="reveal">
+        <a href="AlfadilStore.html" class="logo">دكان الحرمين</a>
+        <div class="nav-links">
+            <a href="categories.html" class="active">الأصناف</a>
+            <a href="cart.html">السلة <span id="cartCount">(0)</span></a>
+            <a href="#">العروض </a>
+            <a href="register.html" id="authLink">التسجيل</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1 class="reveal delay-1">الأصناف المتوفرة</h1>
+        
+        <div class="categories-grid reveal delay-2" id="productsGrid">
+            <!-- Products will be loaded here -->
+        </div>
+    </main>
+
+    <footer>© 2026 Created by Minna Service Sudan</footer>
+
+    <script src="db.js"></script>
+    <script>
+        // Check auth status
+        const currentUser = db.getCurrentUser();
+        const authLink = document.getElementById('authLink');
+        
+        if (currentUser) {
+            authLink.textContent = 'تسجيل خروج';
+            authLink.href = '#';
+            authLink.onclick = (e) => {
+                e.preventDefault();
+                db.logoutUser();
+            };
+            
+            // Update cart count
+            document.getElementById('cartCount').textContent = `(${currentUser.cart.length})`;
+        }
+
+        // Load Products
+        const productsGrid = document.getElementById('productsGrid');
+        const products = db.getProducts();
+
+        products.forEach(product => {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+            card.innerHTML = `
+                <span class="category-icon">${product.image}</span>
+                <h3 class="category-title">${product.name}</h3>
+                <p class="category-desc">${product.category}</p>
+                <p class="category-title" style="color: #4ade80; margin-top: 0.5rem;">${product.price} SDG</p>
+                <button onclick="addToCart(${product.id})" style="margin-top: 1rem; padding: 0.5rem 1rem; border-radius: 10px; border: none; background: #6366f1; color: white; cursor: pointer;">إضافة للسلة</button>
+            `;
+            productsGrid.appendChild(card);
+        });
+
+        function addToCart(productId) {
+            db.addToCart(productId);
+            const user = db.getCurrentUser();
+            if (user) {
+                document.getElementById('cartCount').textContent = `(${user.cart.length})`;
+            }
+        }
+    </script>
+
+</body>
+</html>
+            const email = document.getElementById('email').value;
+ --><!--             const phone = document.getElementById('phone').value;
+ --><!--             const password = document.getElementById('password').value;
+ --><!--
+
+# Add category management endpoints
+@app.route('/admin/categories', methods=['GET', 'POST'])
+def manage_categories():
+    if not session.get('admin'):
+        return redirect(url_for('admin_login'))
+    conn = get_db_connection()
+    if request.method == 'POST':
+        name = request.form['name']
+        conn.execute('INSERT INTO categories (name) VALUES (?)', (name,))
+        conn.commit()
+    categories = conn.execute('SELECT * FROM categories').fetchall()
+    conn.close()
+    html = '<h2>Categories</h2><form method="post">Add Category: <input name="name"><input type="submit" value="Add"></form>'
+    html += '<ul>'
+    for cat in categories:
+        html += f"<li>{cat['name']} (ID: {cat['category_id']})</li>"
+    html += '</ul>'
+    return html

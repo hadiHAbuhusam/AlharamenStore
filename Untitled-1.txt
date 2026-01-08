@@ -1,0 +1,13 @@
+<h2>Register</h2>
+<form method="post" action="/register">
+    <!-- Your existing registration fields -->
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <button type="submit">Register</button>
+</form>
+
+<hr>
+<p>Or register with:</p>
+<a href="/auth/google"><img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" alt="Register with Google"></a>
+<a href="/auth/facebook"><img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Register with Facebook" width="40" style="vertical-align:middle"></a>

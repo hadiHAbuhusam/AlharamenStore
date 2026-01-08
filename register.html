@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التسجيل - دكان الحرمين</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;800&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --accent-glow: rgba(140, 180, 255, 0.3);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --bg-deep: #020617;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Abstract Fluid Background */
+        .fluid-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, #1e1b4b 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #1e293b 0%, transparent 40%);
+            filter: blur(80px);
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: move 25s infinite alternate ease-in-out;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%) rotate(0deg); }
+            to { transform: translate(20%, 30%) rotate(360deg); }
+        }
+
+        /* Nav */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2.5rem 4rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            padding: 0 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .register-container {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            background: rgba(0,0,0,0.4);
+            border-color: #6366f1;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 15px;
+            border: none;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            color: white;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-submit:hover {
+            transform: scale(0.98);
+            filter: brightness(1.1);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: revealAnim 1s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes revealAnim {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-sub);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fluid-canvas">
+        <div class="blob"></div>
+    </div>
+
+    <nav class="reveal">
+        <a href="AlfadilStore.html" class="logo">دكان الحرمين</a>
+        <div class="nav-links">
+            <a href="categories.html">الأصناف</a>
+            <a href="#">السعر</a>
+            <a href="#">العروض </a>
+            <a href="register.html" class="active">التسجيل</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="register-container reveal delay-1">
+            <h1>إنشاء حساب جديد</h1>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" placeholder="أدخل اسمك الكامل" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" placeholder="name@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" placeholder="0912345678" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-submit">تسجيل</button>
+            </form>
+
+            <hr>
+
+            python -m ensurepip --upgrade            python -m ensurepip --upgrade            python -m ensurepip --upgrade            pip install flask            pip install flask            pip install flask            <h2>Reset Password</h2>
+            <form method="post" action="/reset-password">
+                <input type="hidden" name="token" value="{{ token }}">
+                <input type="password" name="new_password" placeholder="New Password" required><br>
+                <button type="submit">Reset Password</button>
+            </form>
+
+            <p>Or register with:</p>
+            <a href="/auth/google">
+                <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" alt="Register with Google">
+            </a>
+            <a href="/auth/facebook">
+                <img src="https://www.facebook.com/images/fb_icon_325x325.png" alt="Register with Facebook" width="40" style="vertical-align:middle">
+            </a>
+
+            <p><a href="/forgot-password">Forgot your password?</a></p>
+        </div>
+    </main>
+
+    <footer>© 2026 Created by Minna Service Sudan</footer>
+
+    <script src="db.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+
+            const result = db.registerUser({ name, email, phone, password });
+
+            if (result.success) {
+                alert(result.message);
+                window.location.href = 'categories.html';
+            } else {
+                alert(result.message);
+            }
+        });
+    </script>
+
+</body>
+</html>
+
+<!-- Add categories table and link to orders -->
+<script>
+    import sqlite3
+
+    conn = sqlite3.connect('orders.db')
+    cursor = conn.cursor()
+
+    cursor.execute(```
+    CREATE TABLE IF NOT EXISTS categories (
+        category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL
+    )
+    ```);    pip install flask
+
+    cursor.execute(```
+    ALTER TABLE orders ADD COLUMN category_id INTEGER REFERENCES categories(category_id)
+    ```);  // If not already present
+
+    conn.commit();
+    conn.close();
+</script>
+python -m ensurepip --upgrade
